@@ -1,0 +1,21 @@
+
+{
+    "estados": ["s0", "s1", "s2"],
+    "entradas": ["a", "b"],
+    "transiciones": {
+      "s0": {
+        "a": ["s0", "s1"],
+        "b": ["s0"]
+      },
+      "s1": {
+        "a": ["s2"],
+        "b": ["s2"]
+      },
+      "s2": {
+        "b": ["s2"]
+      }
+    },
+    "estado_inicial": "s0",
+    "estados_finales": ["s2"]
+  }
+  

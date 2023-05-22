@@ -1,0 +1,20 @@
+{
+  "estados": ["A", "B", "C"],
+  "entradas": ["0", "1"],
+  "transiciones": {
+    "A": {
+      "0": ["A", "B"],
+      "1": ["A", "C"]
+    },
+    "B": {
+      "0": ["C"],
+      "1": ["B"]
+    },
+    "C": {
+      "0": ["A"],
+      "1": ["C"]
+    }
+  },
+  "estado_inicial": "A",
+  "estados_finales": ["C"]
+}
