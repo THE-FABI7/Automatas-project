@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import tkinter as tk
 
-from controller.AutomataController import cargar_automata
+from controller.AutomataController import  cargar_automata_json, cargar_automata_txt
 
 
 def crear_interfaz():
@@ -42,13 +42,17 @@ def crear_interfaz():
     spacer_frame.pack(expand=True, padx=50, pady=50)
 
     # Botón de cargar autómata
-    cargar_button = ttk.Button(spacer_frame, text="Cargar Autómata", command=cargar_automata, style="Green.TButton")
+    cargar_button = ttk.Button(spacer_frame, text="Cargar Autómata(json)", command=cargar_automata_json, style="Green.TButton")
     cargar_button.pack(pady=20, ipadx=10, ipady=10)
+
+
 
     # Separador
     separator = ttk.Separator(main_frame, orient="horizontal")
     separator.pack(fill="x", pady=10)
 
+    cargar_button = ttk.Button(spacer_frame, text="Cargar Autómata(txt)", command=cargar_automata_txt, style="Green.TButton")
+    cargar_button.pack(pady=20, ipadx=10, ipady=10)
     # Botón de cerrar
     cerrar = ttk.Button(main_frame, text="Cerrar", command=root.destroy, style="Red.TButton")
     cerrar.pack(pady=10, ipadx=10, ipady=10)

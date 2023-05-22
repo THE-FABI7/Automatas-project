@@ -25,6 +25,12 @@ def cargar_cadena_txt(ruta_archivo):
 
 
 def cargar_automata_desde_json() -> Automata:
+    """
+    Esta función carga un autómata desde un archivo JSON seleccionado por el usuario.
+    :return: una instancia de la clase Automata, que se crea utilizando datos cargados desde un archivo
+    JSON seleccionado por el usuario a través de un cuadro de diálogo de archivo. Si no se selecciona
+    ningún archivo, la función devuelve Ninguno.
+    """
     root = tk.Tk()
     root.withdraw()
     file_path = filedialog.askopenfilename(
@@ -48,6 +54,16 @@ def cargar_automata_desde_json() -> Automata:
 
 
 def convertir_afnd_a_afd(afnd: Automata) -> Automata:
+    """
+    Esta función convierte un autómata finito no determinista (NFA) en un autómata finito determinista
+    (DFA).
+
+    :param afnd: un objeto de la clase Automata que representa el autómata finito no determinista que se
+    convertirá en un autómata finito determinista
+    :type afnd: Automata
+    :return: una instancia de la clase Automata, que representa el autómata finito determinista (DFA)
+    convertido a partir de la entrada de autómata finito no determinista (NFA) dada.
+    """
     # Inicializar el AFD con el estado inicial del AFND
     estado_inicial_afd = frozenset([afnd.estadoInicial])
     estados_afd = [estado_inicial_afd]
@@ -91,59 +107,17 @@ def convertir_afnd_a_afd(afnd: Automata) -> Automata:
     return afd
 
 
-# def mostrar_automatas(automata_no_determinista, automata_determinista):
-#     # Plot non-deterministic automaton
-#     plt.figure(figsize=(8, 6))
-#     grafo_no_determinista = nx.DiGraph()
-#     grafo_no_determinista.add_edges_from(automata_no_determinista.transiciones)
-#     pos = nx.circular_layout(grafo_no_determinista)
-#     nx.draw_networkx(
-#         grafo_no_determinista,
-#         pos,
-#         with_labels=True,
-#         node_size=1000,
-#         node_color='lightblue',
-#         font_color='black',
-#         font_size=12,
-#         linewidths=0.5,
-#         edge_color='gray',
-#         alpha=0.7
-#     )
-#     edge_labels = nx.get_edge_attributes(grafo_no_determinista, 'label')
-#     nx.draw_networkx_edge_labels(grafo_no_determinista, pos, edge_labels=edge_labels, font_color='black')
-#     plt.title('Autómata no determinista')
-#     plt.axis('off')
-#     plt.show()
-
-#     # Plot deterministic automaton
-#     plt.figure(figsize=(8, 6))
-#     grafo_determinista = nx.DiGraph()
-#     grafo_determinista.add_nodes_from(automata_determinista.estados)
-#     for estado, transiciones in automata_determinista.transiciones.items():
-#         for entrada, estados_destino in transiciones.items():
-#             for estado_destino in estados_destino:
-#                 grafo_determinista.add_edge(estado, estado_destino, label=entrada)
-#     pos = nx.spring_layout(grafo_determinista)
-#     nx.draw_networkx(
-#         grafo_determinista,
-#         pos,
-#         with_labels=True,
-#         node_size=1000,
-#         node_color='lightblue',
-#         font_color='black',
-#         font_size=12,
-#         linewidths=0.5,
-#         edge_color='gray',
-#         alpha=0.7
-#     )
-#     edge_labels = nx.get_edge_attributes(grafo_determinista, 'label')
-#     nx.draw_networkx_edge_labels(grafo_determinista, pos, edge_labels=edge_labels, font_color='black')
-#     plt.title('Autómata determinista')
-#     plt.axis('off')
-#     plt.show()
-
-
 def mostrar_automatas(automata_no_determinista, automata_determinista):
+    """
+    La función "mostrar_automatas" traza autómatas no deterministas y deterministas utilizando la
+    biblioteca networkx en Python.
+
+    :param automata_no_determinista: Un objeto autómata no determinista
+    :param automata_determinista: Objeto de autómata finito determinista (DFA) que representa un
+    lenguaje o una expresión regular. Tiene un conjunto de estados, un estado inicial, un conjunto de
+    estados finales y un conjunto de transiciones que definen cómo se mueve el autómata de un estado a
+    otro en función de los símbolos de entrada
+    """
     # Plot non-deterministic automaton
     plt.figure(figsize=(8, 6))
     grafo_no_determinista = nx.DiGraph()
@@ -211,15 +185,20 @@ def mostrar_automatas(automata_no_determinista, automata_determinista):
         edge_color='gray',
         alpha=0.7
     )
-    edge_labels_determinista = nx.get_edge_attributes(grafo_determinista, 'label')
+    edge_labels_determinista = nx.get_edge_attributes(
+        grafo_determinista, 'label')
     nx.draw_networkx_edge_labels(grafo_determinista, pos_determinista,
-                             edge_labels=edge_labels_determinista, font_color='black')
+                                 edge_labels=edge_labels_determinista, font_color='black')
     plt.title('Autómata determinista')
     plt.axis('off')
     plt.show()
 
 
-def cargar_automata():
+def cargar_automata_json():
+    """
+    Esta función carga un autómata desde un archivo JSON, lo convierte en un autómata determinista y
+    muestra ambos autómatas.
+    """
     afnd = cargar_automata_desde_json()
 
     if afnd:
@@ -232,3 +211,18 @@ def cargar_automata():
             'Advertencia', 'No se seleccionó ningún archivo.')
 
 
+def cargar_automata_txt():
+    """
+    Esta función carga un autómata desde un archivo JSON, lo convierte en un autómata determinista y
+    muestra ambos autómatas.
+    """
+    afnd = cargar_automata_txt()
+
+    if afnd:
+        print(afnd.entradas)
+        afd = convertir_afnd_a_afd(afnd)
+        mostrar_automatas(afnd, afd)
+        print("Esta en la condicion")
+    else:
+        tk.messagebox.showwarning(
+            'Advertencia', 'No se seleccionó ningún archivo.')
